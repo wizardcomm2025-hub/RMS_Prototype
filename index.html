@@ -404,14 +404,208 @@
   .toast.error { border-color: var(--danger); }
   @keyframes slide { from { transform: translateX(30px); opacity: 0; } }
 
+  /* ===================== MOBILE & TABLET RESPONSIVE ===================== */
+
+  /* Overlay backdrop for mobile sidebar */
+  .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 39; }
+  .sidebar-backdrop.show { display: block; }
+
+  /* Mobile hamburger button */
+  .mob-menu-btn { display: none; background: none; border: 0; color: #374151; padding: 6px; border-radius: 6px; align-items: center; justify-content: center; }
+  .mob-menu-btn:hover { background: #f3f4f6; }
+
+  /* ---- Tablet (≤900px) ---- */
   @media (max-width: 900px) {
-    .sidebar { width: 76px; }
-    .sidebar .label, .sidebar .chev, .sidebar .role, .sidebar .sub-item, .sidebar .logo span { display: none; }
-    .topbar { padding: 0 16px; }
+    body { overflow: auto; }
+    .layout { height: auto; min-height: 100vh; }
+
+    /* Sidebar becomes a slide-in drawer */
+    .sidebar {
+      position: fixed; top: 0; left: 0; height: 100vh; z-index: 40;
+      width: 270px; transform: translateX(-100%);
+      transition: transform .25s ease, width .25s;
+      box-shadow: 4px 0 24px rgba(0,0,0,.18);
+    }
+    .sidebar.mob-open { transform: translateX(0); }
+    .sidebar.collapsed { width: 270px; transform: translateX(-100%); }
+    .sidebar.collapsed.mob-open { transform: translateX(0); }
+    /* Always show full labels in drawer */
+    .sidebar .label, .sidebar .chev, .sidebar .role,
+    .sidebar .sub-item, .sidebar .logo span { display: flex !important; }
+    .sidebar .role { display: block !important; }
+    .sidebar .sub-item { display: flex !important; }
+    .sidebar .logo span { display: block !important; }
+    .sidebar .brand { padding: 16px 24px 16px 28px; height: 72px; justify-content: space-between; flex-direction: row; gap: 0; }
+    .collapse-btn { display: none; }
+    .mob-menu-btn { display: flex; }
+
+    .main { width: 100%; min-width: 0; }
+    .topbar { padding: 0 16px; height: 56px; }
     .page { padding: 20px 0 0; }
-    .content { padding: 0 16px 16px; }
-    #view-category-master thead th:nth-child(3), #view-category-master tbody td:nth-child(3) { display: none; }
+    .content { padding: 0 12px 24px; overflow: auto; }
+
+    /* Table column hiding */
+    #view-category-master thead th:nth-child(3),
+    #view-category-master tbody td:nth-child(3) { display: none; }
     thead th:last-child, tbody td:last-child { width: 80px; }
+
+    /* Stats grid */
+    .pt-stats { grid-template-columns: 1fr 1fr; }
+    .pt-stats.s3 { grid-template-columns: 1fr 1fr; }
+    .pt-stats.s5 { grid-template-columns: 1fr 1fr; }
+
+    /* Toolbar stacks */
+    .toolbar { flex-direction: column; align-items: stretch; gap: 10px; }
+    .toolbar-left { width: 100%; }
+    .toolbar-left .search { width: 100%; }
+    .btn-primary { width: 100%; justify-content: center; }
+    .tb-right { width: 100%; }
+    .filter-sel { width: 100%; }
+
+    /* Tabs wrap */
+    .tabs { grid-template-columns: 1fr; }
+    .seg { flex-wrap: wrap; }
+
+    /* Modal full-width on tablet */
+    .modal { width: 100% !important; max-width: 520px; margin: 0 auto; }
+    .overlay { padding: 12px; }
+
+    /* Recipe full-screen form */
+    .rc-inner { display: block; height: auto; }
+    .rc-main { overflow: visible; padding: 12px; }
+    .rc-inner > .sum-card { margin: 0 12px 12px; max-height: none; }
+    .rc-body { overflow-y: auto; }
+    .rc-foot { flex-wrap: wrap; gap: 8px; padding: 10px 12px; }
+    .rc-foot .btns { width: 100%; justify-content: flex-end; }
+    .rc-foot .missing { width: 100%; }
+
+    /* GF inner */
+    .gf-inner { display: block; height: auto; }
+    .gf-inner > .sum-card { margin: 0 12px 12px; max-height: none; }
+
+    /* Dash grid */
+    .dash-grid { grid-template-columns: 1fr; }
+    .week-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .bal-cards { grid-template-columns: 1fr 1fr; }
+
+    /* Nav badge hide */
+    .nav-item .n-badge { display: none; }
+  }
+
+  /* ---- Mobile (≤600px) ---- */
+  @media (max-width: 600px) {
+    .content { padding: 0 10px 20px; }
+    .page { padding: 16px 0 0; }
+    .page h1 { font-size: 16px; margin-bottom: 16px; }
+    .page-sub { font-size: 12px; }
+
+    /* Topbar */
+    .topbar { padding: 0 12px; }
+    .breadcrumb { font-size: 12px; gap: 6px; }
+    .top-right { gap: 12px; }
+    .loc-switch { display: none; }
+
+    /* Tables: horizontal scroll */
+    .table-card { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { min-width: 480px; }
+    .rc-table { min-width: 700px; }
+    .pt-table { min-width: 600px; }
+    .g-table { min-width: 500px; }
+    .roster { min-width: 700px; }
+    .ing-table { min-width: 600px; }
+
+    /* Stats: single column on very small */
+    .pt-stats, .pt-stats.s3, .pt-stats.s5 { grid-template-columns: 1fr 1fr; }
+    .bal-cards { grid-template-columns: 1fr 1fr; }
+
+    /* Grids */
+    .grid, .grid.g4, .grid.g2, .type-pick { grid-template-columns: 1fr; }
+    .grid .span2, .grid .span3 { grid-column: auto; }
+    .g-grid, .g-grid.c3, .g-grid.c4 { grid-template-columns: 1fr; }
+    .g-grid .span2, .g-grid .full { grid-column: auto; }
+    .pt-grid, .pt-bulk-grid { grid-template-columns: 1fr; }
+    .pt-grid .span2 { grid-column: auto; }
+    .kpis { grid-template-columns: 1fr 1fr; }
+
+    /* Week cards */
+    .week-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .wcard .dd { font-size: 16px; }
+
+    /* Checklist builder */
+    .q-card .q-top { grid-template-columns: 26px minmax(0, 1fr); }
+    .ck-cards { grid-template-columns: 1fr; }
+
+    /* Today card */
+    .today-card { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .today-card .t-actions { margin-left: 0; width: 100%; }
+    .today-card .t-actions .btn-primary { width: auto; }
+
+    /* Toolbar */
+    .toolbar { gap: 8px; }
+    .toolbar-left { flex-direction: column; }
+    .toolbar-left .search { width: 100%; }
+    .toolbar-left .filter-sel { width: 100%; }
+    .btn-primary { font-size: 13px; height: 40px; }
+    .btn-ghost { height: 40px; font-size: 13px; }
+
+    /* Modal */
+    .overlay { padding: 0; align-items: flex-end; }
+    .modal { border-radius: 16px 16px 0 0; max-width: 100%; width: 100% !important; }
+    .modal-head { border-radius: 16px 16px 0 0; }
+    .modal.g-modal { max-height: 92vh; }
+    .modal-body { padding: 16px; }
+    .modal-foot { padding: 0 16px 20px !important; margin-top: 0; }
+    .modal-foot .btn-primary, .modal-foot .btn-outline, .modal-foot .btn-danger { flex: 1; justify-content: center; }
+
+    /* Full-screen modal stays full */
+    .overlay.overlay-full { padding: 0; align-items: stretch; }
+    .overlay.overlay-full .modal { border-radius: 0; max-height: 100vh; }
+
+    /* Pagination */
+    .pagination { gap: 6px; padding: 12px 0; }
+    .pg-btn { width: 28px; height: 28px; font-size: 12px; }
+
+    /* Tabs */
+    .tabs { grid-template-columns: 1fr; gap: 8px; }
+    .tab { padding: 10px 12px; }
+    .seg { gap: 4px; }
+    .seg button { padding: 6px 10px; font-size: 12px; }
+
+    /* Info strip */
+    .info-strip { font-size: 12px; padding: 10px 12px; }
+
+    /* Dash */
+    .dash-hello { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .dash-hello .tb-right { width: auto; }
+    .bars { height: 110px; }
+
+    /* Leave balance */
+    .bal-cards { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .bal .bn { font-size: 18px; }
+
+    /* Roster */
+    .week-nav span { padding: 0 8px; font-size: 12px; }
+
+    /* Permission matrix */
+    .perm-table th, .perm-table td { padding: 6px 8px; font-size: 12px; }
+    .perm-table td:first-child { padding-left: 20px; }
+
+    /* Toast */
+    .toast-wrap { top: auto; bottom: 16px; right: 12px; left: 12px; }
+    .toast { min-width: 0; width: 100%; }
+
+    /* Breadcrumb shorten */
+    #crumbGroup { display: none; }
+    .breadcrumb svg { display: none; }
+  }
+
+  /* ---- Very small (≤380px) ---- */
+  @media (max-width: 380px) {
+    .pt-stats, .bal-cards { grid-template-columns: 1fr; }
+    .kpis { grid-template-columns: 1fr; }
+    .week-cards { grid-template-columns: 1fr 1fr; }
+    .food-type { flex-wrap: wrap; }
+    .type-pick { grid-template-columns: 1fr; }
   }
 
   /* ===================== Extended prototype styles (all modules) ===================== */
@@ -682,6 +876,7 @@
 </head>
 <body>
 <div class="layout">
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
   <aside class="sidebar" id="sidebar">
     <div class="brand">
       <div class="logo">
@@ -700,7 +895,11 @@
 
   <div class="main">
     <header class="topbar">
-      <div class="breadcrumb"><span id="crumbGroup">Setting</span>
+      <div class="breadcrumb">
+        <button class="mob-menu-btn" id="mobMenuBtn" title="Open menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <span id="crumbGroup">Setting</span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
         <b id="crumbPage">Category Master</b>
       </div>
@@ -1691,6 +1890,26 @@
 
   $('addBtn').addEventListener('click', () => openForm());
   $('collapseBtn').addEventListener('click', () => $('sidebar').classList.toggle('collapsed'));
+
+  // Mobile sidebar toggle
+  const mobBtn = document.getElementById('mobMenuBtn');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  function openMobSidebar() {
+    document.getElementById('sidebar').classList.add('mob-open');
+    backdrop.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobSidebar() {
+    document.getElementById('sidebar').classList.remove('mob-open');
+    backdrop.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  if (mobBtn) mobBtn.addEventListener('click', openMobSidebar);
+  if (backdrop) backdrop.addEventListener('click', closeMobSidebar);
+  // Close sidebar on nav item click (mobile)
+  document.querySelector('.nav').addEventListener('click', () => {
+    if (window.innerWidth <= 900) closeMobSidebar();
+  });
 
   // ---------- Toast ----------
   function toast(msg, isError = false) {
